@@ -22,8 +22,8 @@ resource "google_project_service" "services" {
 
 # Create a Cloud Storage bucket for the service
 resource "google_storage_bucket" "storage_bucket" {
-  name     = var.function_bucket
-  location = "US"
+  name       = var.function_bucket
+  location   = "US"
   depends_on = [google_project_service.services]
 }
 
