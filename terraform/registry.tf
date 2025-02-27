@@ -8,9 +8,9 @@ resource "google_artifact_registry_repository_iam_member" "cloud_run_pull" {
 # Create an Artifact Registry repository for storing container images
 resource "google_artifact_registry_repository" "docker_registry" {
   project       = var.project_id
-  location      = "us-central1"  # Change to your desired region
-  repository_id = "cloud-run-source-deploy"
+  location      = "us-central1" # Change to your desired region
+  repository_id = "population-api"
   format        = "DOCKER"
 
-  depends_on = [google_project_service.artifact_registry]
+  depends_on = [google_project_service.services]
 }
