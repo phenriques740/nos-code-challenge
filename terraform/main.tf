@@ -11,31 +11,20 @@ provider "google" {
 }
 
 # Enable required APIs
-resource "google_project_service" "secret_manager" {
+resource "google_project_service" "services" {
+  for_each = toset(
+    ["secretmanager.googleapis.com", "run.googleapis.com", "artifactregistry.googleapis.com", "storage.googleapis.com"]
+  )
   project = var.project_id
-  service = "secretmanager.googleapis.com"
+  service = each.value
 }
 
-resource "google_project_service" "cloud_run" {
-  project = var.project_id
-  service = "run.googleapis.com"
-}
-
-resource "google_project_service" "artifact_registry" {
-  project = var.project_id
-  service = "artifactregistry.googleapis.com"
-}
-
-resource "google_project_service" "cloud_storage" {
-  project = var.project_id
-  service = "storage.googleapis.com"
-}
 
 # Create a Cloud Storage bucket for the service
 resource "google_storage_bucket" "storage_bucket" {
   name     = var.function_bucket
   location = "US"
-  depends_on = [google_project_service.cloud_storage]
+  depends_on = [google_project_service.services]
 }
 
 # Create a service account for Cloud Run
