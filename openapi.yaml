@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  title: Population API
+  version: "1.0.0"
+  description: >
+    A simple API to retrieve country population data, basic statistics,
+    and detailed country information. It also provides an endpoint to invalidate caches.
+servers:
+  - url: http://127.0.0.1:5000
+paths:
+  /population/current/{country}:
+    get:
+      summary: Get Current Population
+      description: Fetches the current population data for the specified country.
+      parameters:
+        - name: country
+          in: path
+          required: true
+          description: The name of the country.
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: Successful response with population data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  population:
+                    type: integer
+        "403":
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "404":
+          description: Country not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /population/stats/{country}:
+    get:
+      summary: Get Population Statistics
+      description: >
+        Returns basic statistics (min, max, and average population) from cached data
+        for the specified country.
+      parameters:
+        - name: country
+          in: path
+          required: true
+          description: The name of the country.
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: Successful response with statistics.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  country:
+                    type: string
+                  min_population:
+                    type: integer
+                  max_population:
+                    type: integer
+                  avg_population:
+                    type: integer
+        "403":
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "404":
+          description: No cached data available.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /population/details/{country}:
+    get:
+      summary: Get Country Details
+      description: >
+        Returns detailed country information such as region, subregion, and languages.
+      parameters:
+        - name: country
+          in: path
+          required: true
+          description: The name of the country.
+          schema:
+            type: string
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: Successful response with country details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  country:
+                    type: string
+                  region:
+                    type: string
+                  subregion:
+                    type: string
+                  languages:
+                    type: object
+                    additionalProperties:
+                      type: string
+        "403":
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        "404":
+          description: Country not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /population/invalidate:
+    post:
+      summary: Invalidate Cache
+      description: Invalidate all cached data.
+      security:
+        - ApiKeyAuth: []
+      responses:
+        "200":
+          description: Caches invalidated successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "403":
+          description: Unauthorized access.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
