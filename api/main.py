@@ -74,7 +74,7 @@ def invalidate_cache():
 
 @app.route('/healthz')
 def health():
-    return jsonify({'message': 'Healthy'})  # This will return as JSON by default with a 200 status code
+    return jsonify({'message': 'Healthy'})
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
