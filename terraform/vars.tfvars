@@ -1,0 +1,6 @@
+project_id      = "sharp-maxim-452213-p9"
+function_bucket = "pedro-nos-challenge-2702251429"
+function_name   = "population-api"
+service_name    = "population-api"
+container_image = "population-api"
+developer_email = "pedro.challenge.nos@gmail.com"
