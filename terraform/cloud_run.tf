@@ -10,11 +10,21 @@ resource "google_cloud_run_service" "default" {
       containers {
         image = var.container_image
 
-        # Optionally, define environment variables if required
-        # env {
-        #   name  = "EXAMPLE_VAR"
-        #   value = "value"
-        # }
+        # Set the container port to 5000
+        ports {
+          container_port = 5000
+        }
+
+        # Define liveness and readiness probes
+        liveness_probe {
+          http_get {
+            path = "/healthz"
+            port = 5000
+          }
+          initial_delay_seconds = 3
+          period_seconds        = 10
+        }
+
       }
     }
   }
