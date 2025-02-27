@@ -13,7 +13,7 @@ provider "google" {
 # Enable required APIs
 resource "google_project_service" "services" {
   for_each = toset(
-    ["secretmanager.googleapis.com", "run.googleapis.com", "artifactregistry.googleapis.com", "storage.googleapis.com"]
+    ["secretmanager.googleapis.com", "run.googleapis.com", "artifactregistry.googleapis.com", "storage.googleapis.com", "cloudresourcemanager.googleapis.com", "iam.googleapis.com", "cloudresourcemanager.googleapis.com"]
   )
   project = var.project_id
   service = each.value
