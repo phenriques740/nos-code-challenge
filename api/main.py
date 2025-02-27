@@ -72,7 +72,7 @@ def invalidate_cache():
     invalidate_caches()
     return jsonify({"message": "Caches invalidated"}), 200
 
-@app.route('/healthz')
+@app.route('/healthz/', methods=["GET"])
 def health():
     return jsonify({'message': 'Healthy'})
 
