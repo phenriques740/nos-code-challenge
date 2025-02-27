@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket = "pedro-nos-challenge-2702251429"
+    prefix = "terraform/state"
+  }
+}
+
 provider "google" {
   project = var.project_id
   region  = "us-central1"
